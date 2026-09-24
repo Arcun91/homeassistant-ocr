@@ -19,12 +19,14 @@ RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4 && \
 # Installazione dei pacchetti di sistema necessari:
 # - tesseract-ocr con modelli per italiano (ita) e inglese (eng)
 # - poppler-utils per la conversione/estrazione da PDF
+# - python3-pillow precompilato nativamente da Debian (risolve il build su armv7 a 32-bit)
 # - jq per il parsing di options.json di Home Assistant
 RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr \
     tesseract-ocr-ita \
     tesseract-ocr-eng \
     poppler-utils \
+    python3-pillow \
     jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
