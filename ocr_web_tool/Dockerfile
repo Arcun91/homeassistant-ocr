@@ -54,7 +54,7 @@ EXPOSE 5000
 # Etichette di metadati per Home Assistant
 LABEL io.hass.version="1.0.2" \
       io.hass.type="addon" \
-      io.hass.arch="aarch64|amd64|armv7" \
+      io.hass.arch="aarch64|amd64" \
       io.hass.name="OCR Web Tool" \
       io.hass.description="Applicazione web OCR leggera con Tesseract per immagini e PDF"
 

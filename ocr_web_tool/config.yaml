@@ -6,7 +6,6 @@ url: "https://github.com/Arcun91/homeassistant-ocr"
 image: "ghcr.io/arcun91/ocr_web_tool_{arch}"
 arch:
   - aarch64
-  - armv7
   - amd64
 startup: application
 boot: auto

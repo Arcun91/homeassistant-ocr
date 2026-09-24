@@ -23,8 +23,6 @@ jobs:
         include:
           - arch: aarch64
             platform: linux/arm64
-          - arch: armv7
-            platform: linux/arm/v7
           - arch: amd64
             platform: linux/amd64
 
