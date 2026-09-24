@@ -1,9 +1,9 @@
 # OCR Web Tool - Home Assistant Add-on
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
-[![Architectures](https://img.shields.io/badge/arch-aarch64%20%7C%20amd64%20%7C%20armv7%20%7C%20armhf-brightgreen.svg)]()
+[![Architectures](https://img.shields.io/badge/arch-aarch64%20%7C%20amd64-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.2-orange.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0.3-orange.svg)]()
 
 Un Add-on leggero e reattivo per **Home Assistant OS** che fornisce un'applicazione web completa per il riconoscimento ottico dei caratteri (**OCR**), consentendo l'estrazione rapida e accurata di testo da immagini, scontrini, fatture e documenti PDF.
 
@@ -13,14 +13,14 @@ Progettato specificamente per girare in modo efficiente su **Raspberry Pi (archi
 
 ## Caratteristiche
 
-- **Motore OCR Neurale:** Basato su **Tesseract 5** con modelli LSTM per lingua **Italiana (`ita`)** e **Inglese (`eng`)**, combinabili (`ita+eng`).
+- **Motore OCR Neurale:** Basato su **Tesseract 5** con modelli int8 ultra-veloci `tessdata_fast` per lingua **Italiana (`ita`)** e **Inglese (`eng`)**, combinabili (`ita+eng`).
 - **Mobile-First & Scatto Diretto:** Pulsante dedicato per scattare una foto direttamente dalla fotocamera dello smartphone (`capture="environment"`).
 - **Incolla da Appunti & Drag-and-Drop:** Trascina immagini nel riquadro o incolla direttamente qualsiasi screenshot catturato con `Ctrl + V` / `Cmd + V`.
 - **Supporto Documenti PDF:** Estrazione diretta istantanea del testo vettoriale per PDF digitali e rasterizzazione pagina per pagina per scansioni cartacee.
 - **Ottimizzazioni per Raspberry Pi (ARM):**
   - **Auto-orientamento EXIF:** Corregge automaticamente l'orientamento delle foto scattate con smartphone prima dell'analisi.
-  - **Filtri di Pre-elaborazione:** Auto-contrasto dinamico, aumento della nitidezza, scala di grigi e binarizzazione B/N per scontrini o testo a basso contrasto.
-  - **Downscaling Adattivo:** Ridimensiona immagini con risoluzioni eccessive (oltre 2400px) per prevenire picchi di RAM e velocizzare l'elaborazione su ARM.
+  - **Filtri di Pre-elaborazione:** Scala di grigi predefinita a bassissimo impatto di memoria, auto-contrasto dinamico e binarizzazione B/N per scontrini o testo a basso contrasto.
+  - **Downscaling Adattivo:** Ridimensiona immagini con risoluzioni eccessive (predefinito 1200px) per prevenire picchi di RAM e velocizzare l'elaborazione su ARM.
   - **Controllo Termico CPU:** Limita i thread OpenMP di Tesseract per evitare surriscaldamenti del processore su sistemi privi di raffreddamento attivo.
 - **Integrazione Home Assistant:**
   - Supporto nativo **Ingress** con accesso diretto dalla barra laterale di Home Assistant senza dover aprire porte sul router.

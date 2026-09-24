@@ -1,5 +1,5 @@
 name: "OCR Web Tool"
-version: "1.0.2"
+version: "1.0.3"
 slug: "ocr_web_tool"
 description: "Applicazione web leggera di OCR per estrazione testo da immagini e documenti, ottimizzata per Raspberry Pi."
 url: "https://github.com/Arcun91/homeassistant-ocr"
@@ -23,12 +23,12 @@ options:
   tesseract_psm: 3
   tesseract_oem: 3
   max_upload_size_mb: 20
-  max_image_dimension: 2400
+  max_image_dimension: 1200
   omp_thread_limit: 2
 schema:
   default_language: "list(ita|eng|ita+eng)"
   tesseract_psm: "int(0,13)"
   tesseract_oem: "int(0,3)"
   max_upload_size_mb: "int(1,50)"
-  max_image_dimension: "int(1000,4000)"
+  max_image_dimension: "int(600,4000)"
   omp_thread_limit: "int(1,4)"

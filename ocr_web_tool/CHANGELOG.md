@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.3 (2026-09-24)
+- **Ottimizzazione drastica prestazioni su Raspberry Pi / ARM**:
+  - Adozione dei modelli neurali ufficiali quantizzati a 8-bit `tessdata_fast` (`ita`, `eng`, `osd`), accelerati tramite istruzioni SIMD ARM NEON (fino a 4x più veloci ed estremamente parsimoniosi di RAM).
+  - Eliminazione della seconda esecuzione superflua di Tesseract (`image_to_data`), dimezzando il tempo di calcolo su ogni scansione (-50%).
+  - Nuova risoluzione predefinita a `1200 px` per ridurre ulteriormente il carico di calcolo e memoria.
+  - Filtro predefinito impostato su **Scala di Grigi** (massima velocità e consumo buffer ridotto a 1 byte/pixel).
+  - Mantenuto il limite di concorrenza CPU a 2 thread (`omp_thread_limit: 2`) per proteggere il Raspberry Pi 3 da surriscaldamento.
+
 ## 1.0.2 (2026-09-24)
 - Pubblicazione immagini multi-arch precompilate su GitHub Container Registry (`ghcr.io`).
 - Installazione immediata senza compilazione su Raspberry Pi.

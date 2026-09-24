@@ -55,7 +55,7 @@ def load_addon_config() -> dict:
         "tesseract_psm": int(os.environ.get("TESSERACT_PSM", 3)),
         "tesseract_oem": int(os.environ.get("TESSERACT_OEM", 3)),
         "max_upload_size_mb": int(os.environ.get("MAX_UPLOAD_SIZE_MB", 20)),
-        "max_image_dimension": int(os.environ.get("MAX_IMAGE_DIMENSION", 2400)),
+        "max_image_dimension": int(os.environ.get("MAX_IMAGE_DIMENSION", 1200)),
         "omp_thread_limit": int(os.environ.get("OMP_THREAD_LIMIT", 2)),
     }
 
@@ -95,9 +95,9 @@ def get_available_languages() -> List[str]:
 
 def preprocess_image(
     img: Image.Image,
-    mode: str = "contrast",
+    mode: str = "grayscale",
     auto_rotate: bool = True,
-    max_dim: int = 2400
+    max_dim: int = 1200
 ) -> Image.Image:
     """
     Ottimizza e pre-processa l'immagine per massimizzare la precisione OCR
@@ -110,10 +110,10 @@ def preprocess_image(
         except Exception as e:
             logger.debug(f"Nessun orientamento EXIF o errore correzione: {e}")
 
-    # 2. Ridimensionamento conservativo se l'immagine è gigantesca (>2400px)
+    # 2. Ridimensionamento conservativo se l'immagine supera max_dim
     w, h = img.size
     if max(w, h) > max_dim:
-        logger.info(f"Ridimensionamento immagine da {w}x{h} per ottimizzazione ARM")
+        logger.info(f"Ridimensionamento immagine da {w}x{h} per ottimizzazione ARM (max {max_dim}px)")
         img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
 
     # 3. Applicazione del filtro selezionato
@@ -146,29 +146,17 @@ def extract_ocr_from_pil(
     language: str,
     psm: int,
     oem: int
-) -> Tuple[str, float]:
-    """Esegue OCR su una singola istanza PIL Image e calcola confidenza media."""
+) -> Tuple[str, Optional[float]]:
+    """
+    Esegue OCR su una singola istanza PIL Image in modalità rapida (singolo passaggio).
+    Dimezza il tempo di elaborazione evitando la seconda esecuzione superflua di Tesseract.
+    """
     custom_config = f"--psm {psm} --oem {oem}"
     
-    # Estrazione testo
+    # Estrazione testo rapida e diretta
     text = pytesseract.image_to_string(pil_image, lang=language, config=custom_config)
-    
-    # Calcolo confidenza percentuale stimata
-    confidence = 0.0
-    try:
-        data = pytesseract.image_to_data(
-            pil_image, lang=language, config=custom_config, output_type=pytesseract.Output.DICT
-        )
-        confs = [
-            int(c) for c in data.get("conf", [])
-            if str(c).strip().lstrip("-").isdigit() and int(c) >= 0
-        ]
-        if confs:
-            confidence = round(sum(confs) / len(confs), 1)
-    except Exception as e:
-        logger.debug(f"Impossibile calcolare confidenza: {e}")
 
-    return text.strip(), confidence
+    return text.strip(), None
 
 
 def process_pdf_document(
@@ -176,9 +164,9 @@ def process_pdf_document(
     language: str,
     psm: int,
     oem: int,
-    preprocess_mode: str,
+    preprocess_mode: str = "grayscale",
     max_pages: int = 15
-) -> Tuple[str, float, int]:
+) -> Tuple[str, Optional[float], int]:
     """
     Estrae testo da documento PDF:
     - Tenta prima l'estrazione digitale diretta con pypdf (velocissima, 0 CPU).
@@ -204,7 +192,7 @@ def process_pdf_document(
             if len(digital_texts) >= (pages_to_read // 2) and "".join(digital_texts).strip():
                 logger.info(f"PDF con testo digitale estratto con successo ({len(digital_texts)} pagine)")
                 full_text = "\n\n".join(digital_texts)
-                return full_text, 100.0, pages_to_read
+                return full_text, None, pages_to_read
         except Exception as e:
             logger.warning(f"Estrazione digitale PDF fallita, passo a OCR raster: {e}")
 
@@ -222,18 +210,14 @@ def process_pdf_document(
     )
     total_pages = len(images)
     
-    confidences = []
     for idx, page_img in enumerate(images, start=1):
         processed_img = preprocess_image(page_img, mode=preprocess_mode)
-        page_text, conf = extract_ocr_from_pil(processed_img, language, psm, oem)
+        page_text, _ = extract_ocr_from_pil(processed_img, language, psm, oem)
         if page_text:
             extracted_text_parts.append(f"--- Pagina {idx} ---\n{page_text}")
-        if conf > 0:
-            confidences.append(conf)
 
-    avg_conf = round(sum(confidences) / len(confidences), 1) if confidences else 0.0
     full_text = "\n\n".join(extracted_text_parts)
-    return full_text, avg_conf, total_pages
+    return full_text, None, total_pages
 
 
 @app.context_processor
@@ -244,7 +228,7 @@ def inject_template_globals():
         "ingress_path": raw_ingress,
         "default_language": APP_CONFIG["default_language"],
         "max_size_mb": APP_CONFIG["max_upload_size_mb"],
-        "version": "1.0.2"
+        "version": "1.0.3"
     }
 
 
@@ -262,7 +246,7 @@ def index():
 @app.route("/health", methods=["GET"])
 def health():
     """Health check per monitoraggio contenitore."""
-    return jsonify({"status": "ok", "app": "OCR Web Tool", "version": "1.0.2"})
+    return jsonify({"status": "ok", "app": "OCR Web Tool", "version": "1.0.3"})
 
 
 @app.route("/api/status", methods=["GET"])
@@ -305,7 +289,7 @@ def api_ocr():
     req_lang = request.form.get("language", APP_CONFIG["default_language"]).strip()
     req_psm = int(request.form.get("psm", APP_CONFIG["tesseract_psm"]))
     req_oem = int(request.form.get("oem", APP_CONFIG["tesseract_oem"]))
-    preprocess_mode = request.form.get("preprocessing", "contrast").strip()
+    preprocess_mode = request.form.get("preprocessing", "grayscale").strip()
     auto_rotate = request.form.get("auto_rotate", "true").lower() in ("true", "1", "yes")
 
     # Mappa lingua per Tesseract

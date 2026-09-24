@@ -29,7 +29,7 @@ Nella scheda **Configurazione** dell'add-on su Home Assistant sono disponibili i
 | `tesseract_psm` | `3` | Page Segmentation Mode di Tesseract (3 = Completamente automatico) |
 | `tesseract_oem` | `3` | OCR Engine Mode (3 = Predefinito basato su reti neurali LSTM) |
 | `max_upload_size_mb` | `20` | Dimensione massima file in upload (MB) |
-| `max_image_dimension` | `2400` | Dimensione massima (px) per ridimensionamento automatico |
+| `max_image_dimension` | `1200` | Dimensione massima (px) per ridimensionamento automatico |
 | `omp_thread_limit` | `2` | Limite thread CPU Tesseract per evitare surriscaldamenti su Raspberry Pi |
 
 ---

@@ -13,7 +13,7 @@ if [ -f "$OPTIONS_FILE" ]; then
     export TESSERACT_PSM=$(jq -r '.tesseract_psm // 3' "$OPTIONS_FILE")
     export TESSERACT_OEM=$(jq -r '.tesseract_oem // 3' "$OPTIONS_FILE")
     export MAX_UPLOAD_SIZE_MB=$(jq -r '.max_upload_size_mb // 20' "$OPTIONS_FILE")
-    export MAX_IMAGE_DIMENSION=$(jq -r '.max_image_dimension // 2400' "$OPTIONS_FILE")
+    export MAX_IMAGE_DIMENSION=$(jq -r '.max_image_dimension // 1200' "$OPTIONS_FILE")
     export OMP_THREAD_LIMIT=$(jq -r '.omp_thread_limit // 2' "$OPTIONS_FILE")
 else
     echo "[INFO] No ${OPTIONS_FILE} found. Using fallback environment variables / defaults."
@@ -21,7 +21,7 @@ else
     export TESSERACT_PSM="${TESSERACT_PSM:-3}"
     export TESSERACT_OEM="${TESSERACT_OEM:-3}"
     export MAX_UPLOAD_SIZE_MB="${MAX_UPLOAD_SIZE_MB:-20}"
-    export MAX_IMAGE_DIMENSION="${MAX_IMAGE_DIMENSION:-2400}"
+    export MAX_IMAGE_DIMENSION="${MAX_IMAGE_DIMENSION:-1200}"
     export OMP_THREAD_LIMIT="${OMP_THREAD_LIMIT:-2}"
 fi
 

@@ -232,9 +232,15 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Aggiorna metriche
       statTime.textContent = `⏱ ${data.processing_time}s`;
-      statConfidence.textContent = `🎯 ${data.confidence}%`;
       statChars.textContent = `🔤 ${data.char_count} car.`;
       statWords.textContent = `📝 ${data.word_count} parole`;
+
+      if (data.confidence !== null && data.confidence !== undefined && data.confidence > 0) {
+        statConfidence.textContent = `🎯 ${data.confidence}%`;
+        statConfidence.style.display = "inline-block";
+      } else {
+        statConfidence.style.display = "none";
+      }
       
       if (data.page_count && data.page_count > 1) {
         statPages.textContent = `📄 ${data.page_count} pag.`;

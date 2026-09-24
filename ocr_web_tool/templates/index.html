@@ -120,8 +120,8 @@
             <div class="form-group">
               <label for="preprocessSelect">Ottimizzazione Immagine:</label>
               <select id="preprocessSelect" class="form-select">
-                <option value="contrast" selected>⚡ Alto Contrasto (Consigliato per scontrini/fogli)</option>
-                <option value="grayscale">Scala di Grigi</option>
+                <option value="grayscale" selected>Scala di Grigi (Consigliato Raspberry Pi)</option>
+                <option value="contrast">⚡ Alto Contrasto (Scontrini/fogli con ombre)</option>
                 <option value="binarize">Binarizzazione B/N (Soglia netta)</option>
                 <option value="none">Nessun Filtro (Originale)</option>
               </select>
@@ -158,7 +158,7 @@
             <h2 class="card-title">Testo Estratto</h2>
             <div id="statsRow" class="stats-badges">
               <span id="statTime" class="badge">⏱ 0.0s</span>
-              <span id="statConfidence" class="badge">🎯 0%</span>
+              <span id="statConfidence" class="badge" style="display:none;">🎯 0%</span>
               <span id="statChars" class="badge">🔤 0 car.</span>
               <span id="statWords" class="badge">📝 0 parole</span>
               <span id="statPages" class="badge" style="display:none;">📄 1 pag.</span>
