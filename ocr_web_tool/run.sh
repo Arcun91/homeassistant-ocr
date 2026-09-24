@@ -41,7 +41,7 @@ echo "[INFO] Avvio server web Gunicorn sulla porta ${PORT} (0.0.0.0)..."
 
 exec gunicorn \
     --bind "0.0.0.0:${PORT}" \
-    --workers 2 \
+    --workers 1 \
     --threads 2 \
     --timeout 120 \
     --access-logfile - \

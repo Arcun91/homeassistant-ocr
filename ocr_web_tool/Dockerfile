@@ -26,16 +26,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr-eng \
     poppler-utils \
     jq \
-    curl \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/locale/*
 
 # Directory di lavoro dell'applicazione
 WORKDIR /app
 
-# Copia e installazione delle dipendenze Python
+# Copia e installazione delle dipendenze Python con ruote binarie precompilate
 COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --no-compile -r requirements.txt
 
 # Copia dell'applicazione
 COPY app.py /app/
