@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 (2026-09-24)
+- Pubblicazione immagini multi-arch precompilate su GitHub Container Registry (`ghcr.io`).
+- Installazione immediata senza compilazione su Raspberry Pi.
+- Risolto build su architetture 32-bit (ARMv7) con pacchetto nativo `python3-pillow`.
+
 ## 1.0.1 (2026-09-24)
 - Risolto errore DNS e IPv6 (`Temporary failure resolving 'deb.debian.org'`) forzando IPv4 e timeout su apt.
 - Corretta la sintassi degli intervalli numerici in `config.yaml` (`int(min,max)` invece di `..`).

@@ -3,7 +3,7 @@
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
 [![Architectures](https://img.shields.io/badge/arch-aarch64%20%7C%20amd64%20%7C%20armv7%20%7C%20armhf-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.1-orange.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0.2-orange.svg)]()
 
 Un Add-on leggero e reattivo per **Home Assistant OS** che fornisce un'applicazione web completa per il riconoscimento ottico dei caratteri (**OCR**), consentendo l'estrazione rapida e accurata di testo da immagini, scontrini, fatture e documenti PDF.
 
