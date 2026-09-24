@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2026-09-24)
+- Risolto errore DNS e IPv6 (`Temporary failure resolving 'deb.debian.org'`) forzando IPv4 e timeout su apt.
+- Corretta la sintassi degli intervalli numerici in `config.yaml` (`int(min,max)` invece di `..`).
+- Rimosso `webui` ridondante in favore della gestione nativa Ingress.
+- Ottimizzato il consumo di RAM: ridotto Gunicorn a 1 singolo worker a riposo.
+- Snellito il Dockerfile con rimozione documentazione/man pages e `--no-compile` per ridurre le scritture su MicroSD del Raspberry Pi.
+- Aggiunto `repository.json` e file di traduzioni `translations/en.yaml`.
+
 ## 1.0.0 (2026-09-24)
 - Versione iniziale di OCR Web Tool per Home Assistant OS.
 - Motore Tesseract 5 con supporto modelli neurali per lingua italiana (`ita`) e inglese (`eng`).

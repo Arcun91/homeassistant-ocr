@@ -244,7 +244,7 @@ def inject_template_globals():
         "ingress_path": raw_ingress,
         "default_language": APP_CONFIG["default_language"],
         "max_size_mb": APP_CONFIG["max_upload_size_mb"],
-        "version": "1.0.0"
+        "version": "1.0.1"
     }
 
 
@@ -262,7 +262,7 @@ def index():
 @app.route("/health", methods=["GET"])
 def health():
     """Health check per monitoraggio contenitore."""
-    return jsonify({"status": "ok", "app": "OCR Web Tool", "version": "1.0.0"})
+    return jsonify({"status": "ok", "app": "OCR Web Tool", "version": "1.0.1"})
 
 
 @app.route("/api/status", methods=["GET"])

@@ -50,7 +50,7 @@ RUN chmod +x /run.sh
 EXPOSE 5000
 
 # Etichette di metadati per Home Assistant
-LABEL io.hass.version="1.0.0" \
+LABEL io.hass.version="1.0.1" \
       io.hass.type="addon" \
       io.hass.arch="aarch64|amd64|armhf|armv7|i386" \
       io.hass.name="OCR Web Tool" \

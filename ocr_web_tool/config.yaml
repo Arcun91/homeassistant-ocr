@@ -1,5 +1,5 @@
 name: "OCR Web Tool"
-version: "1.0.0"
+version: "1.0.1"
 slug: "ocr_web_tool"
 description: "Applicazione web leggera di OCR per estrazione testo da immagini e documenti, ottimizzata per Raspberry Pi."
 url: "https://github.com/Arcun91/homeassistant-ocr"
