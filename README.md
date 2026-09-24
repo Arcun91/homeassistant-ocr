@@ -71,9 +71,9 @@ git init
 git add .
 git commit -m "Initial commit: OCR Web Tool Add-on for Home Assistant"
 
-# Collega la tua repository remota GitHub (sostituisci USERNAME con il tuo username)
+# Collega la tua repository remota GitHub
 git branch -M main
-git remote add origin https://github.com/USERNAME/homeassistant-ocr.git
+git remote add origin https://github.com/Arcun91/homeassistant-ocr.git
 git push -u origin main
 ```
 
@@ -93,7 +93,7 @@ Puoi installare l'add-on in due modi:
 4. Clicca sui **tre puntini verticali (⋮)** in alto a destra e seleziona **Repository**.
 5. Incolla l'URL della tua repository GitHub:
    ```text
-   https://github.com/USERNAME/homeassistant-ocr
+   https://github.com/Arcun91/homeassistant-ocr
    ```
 6. Clicca su **Aggiungi** e poi su **Chiudi**.
 7. La pagina dello store si aggiornerà: troverai la sezione **"Home Assistant OCR Add-ons"** con all'interno **OCR Web Tool**.
