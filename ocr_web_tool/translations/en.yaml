@@ -1,0 +1,21 @@
+configuration:
+  default_language:
+    name: "Default OCR Language"
+    description: "Primary language for text recognition (ita, eng, or ita+eng)."
+  tesseract_psm:
+    name: "Tesseract Page Segmentation Mode (PSM)"
+    description: "Page segmentation mode (default: 3 - fully automatic)."
+  tesseract_oem:
+    name: "Tesseract OCR Engine Mode (OEM)"
+    description: "OCR engine mode (default: 3 - neural net LSTM)."
+  max_upload_size_mb:
+    name: "Max Upload Size (MB)"
+    description: "Maximum file size allowed for upload in megabytes."
+  max_image_dimension:
+    name: "Max Image Dimension (px)"
+    description: "Downscale images larger than this size to protect Raspberry Pi memory."
+  omp_thread_limit:
+    name: "CPU Thread Limit"
+    description: "Maximum CPU threads used by Tesseract to prevent overheating on Raspberry Pi."
+network:
+  5000/tcp: "Web Interface (Direct LAN or NetBird VPN access)"

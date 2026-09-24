@@ -20,7 +20,6 @@ ports:
   5000/tcp: 5000
 ports_description:
   5000/tcp: "Interfaccia Web OCR (HTTP per accesso diretto LAN o VPN NetBird)"
-webui: "http://[HOST]:[PORT:5000]"
 options:
   default_language: "ita"
   tesseract_psm: 3
@@ -30,8 +29,8 @@ options:
   omp_thread_limit: 2
 schema:
   default_language: "list(ita|eng|ita+eng)"
-  tesseract_psm: "int(0..13)"
-  tesseract_oem: "int(0..3)"
-  max_upload_size_mb: "int(1..50)"
-  max_image_dimension: "int(1000..4000)"
-  omp_thread_limit: "int(1..4)"
+  tesseract_psm: "int(0,13)"
+  tesseract_oem: "int(0,3)"
+  max_upload_size_mb: "int(1,50)"
+  max_image_dimension: "int(1000,4000)"
+  omp_thread_limit: "int(1,4)"
