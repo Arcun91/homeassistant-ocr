@@ -1,0 +1,4 @@
+# Home Assistant Add-on Repository Manifest
+name: "Home Assistant OCR Add-ons"
+url: "https://github.com/USERNAME/homeassistant-ocr"
+maintainer: "Home Assistant Community"

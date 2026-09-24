@@ -1,0 +1,22 @@
+# docker-compose.yml per test e sviluppo locale fuori da Home Assistant
+services:
+  ocr-web-tool:
+    build:
+      context: ./ocr_web_tool
+      dockerfile: Dockerfile
+      network: host
+    container_name: ocr_web_tool
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DEFAULT_LANGUAGE=ita
+      - TESSERACT_PSM=3
+      - TESSERACT_OEM=3
+      - MAX_UPLOAD_SIZE_MB=20
+      - MAX_IMAGE_DIMENSION=2400
+      - OMP_THREAD_LIMIT=2
+    restart: unless-stopped

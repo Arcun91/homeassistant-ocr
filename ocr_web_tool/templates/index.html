@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>OCR Web Tool - Home Assistant</title>
+  
+  {% if ingress_path %}
+  <base href="{{ ingress_path }}/">
+  {% else %}
+  <base href="./">
+  {% endif %}
+
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2303a9f4'%3E%3Cpath d='M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z'/%3E%3C/svg%3E">
+</head>
+<body data-theme="dark">
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <path d="M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">OCR Web Tool</h1>
+          <p class="header-subtitle">Riconoscimento ottico del testo per Home Assistant OS</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="btn-icon" title="Cambia tema chiaro/scuro" aria-label="Cambia tema">
+          <svg class="icon-theme-dark" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+          <svg class="icon-theme-light" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="display:none;">
+            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-layout">
+      
+      <!-- Upload & Configuration Card -->
+      <section class="card upload-card">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone" id="dropZone">
+          <div class="dropzone-content">
+            <div class="dropzone-icon">
+              <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+              </svg>
+            </div>
+            <p class="dropzone-text">Trascina qui l'immagine o il documento</p>
+            <p class="dropzone-subtext">JPG, PNG, WEBP, PDF, TIFF (fino a {{ max_size_mb }} MB)</p>
+            
+            <div class="upload-buttons">
+              <!-- Pulsante per caricare file da galleria o disco -->
+              <label for="fileInput" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                </svg>
+                <span>Carica File</span>
+              </label>
+              <input type="file" id="fileInput" accept="image/*,application/pdf" style="display:none;">
+
+              <!-- Pulsante per scattare direttamente una foto (ottimizzato smartphone) -->
+              <label for="cameraInput" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M12 15c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0-8c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm8-3h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h4.05l1.83-2h4.24l1.83 2H20v12z"/>
+                </svg>
+                <span>Scatta Foto</span>
+              </label>
+              <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;">
+            </div>
+
+            <p class="clipboard-hint">💡 Suggerimento: puoi incollare uno screenshot direttamente con <kbd>Ctrl</kbd> + <kbd>V</kbd></p>
+          </div>
+        </div>
+
+        <!-- File Preview & Parameter Form (visibile dopo selezione file) -->
+        <div id="previewContainer" class="preview-container" style="display:none;">
+          <div class="preview-header">
+            <div class="file-info">
+              <span id="fileIcon" class="file-icon">📄</span>
+              <div>
+                <strong id="fileName" class="file-name">documento.jpg</strong>
+                <span id="fileSize" class="file-size">1.2 MB</span>
+              </div>
+            </div>
+            <button id="removeFileBtn" class="btn-text danger" title="Rimuovi file">Rimuovi</button>
+          </div>
+
+          <div class="preview-media-box">
+            <img id="imagePreview" src="" alt="Anteprima" style="display:none;">
+            <div id="pdfPlaceholder" class="pdf-placeholder" style="display:none;">
+              <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+                <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm12 6V9c0-.55-.45-1-1-1h-2v6h2c.55 0 1-.45 1-1zm-2-1h1v-1h-1v2zm-3-3h-2v6h1v-2h1c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1zm-1 2h-1v-1h1v1z"/>
+              </svg>
+              <span>Documento PDF pronto per l'elaborazione</span>
+            </div>
+          </div>
+
+          <!-- Opzioni di elaborazione -->
+          <div class="ocr-options-grid">
+            <div class="form-group">
+              <label for="languageSelect">Lingua OCR:</label>
+              <select id="languageSelect" class="form-select">
+                <option value="ita" {% if default_language == 'ita' %}selected{% endif %}>🇮🇹 Italiano (ita)</option>
+                <option value="eng" {% if default_language == 'eng' %}selected{% endif %}>🇬🇧 English (eng)</option>
+                <option value="ita+eng" {% if default_language == 'ita+eng' %}selected{% endif %}>🇮🇹 + 🇬🇧 Italiano + English</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="preprocessSelect">Ottimizzazione Immagine:</label>
+              <select id="preprocessSelect" class="form-select">
+                <option value="contrast" selected>⚡ Alto Contrasto (Consigliato per scontrini/fogli)</option>
+                <option value="grayscale">Scala di Grigi</option>
+                <option value="binarize">Binarizzazione B/N (Soglia netta)</option>
+                <option value="none">Nessun Filtro (Originale)</option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="autoRotateCheck" checked>
+                <span>Auto-orientamento EXIF (consigliato per foto smartphone)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pulsante di avvio elaborazione -->
+          <div class="action-submit">
+            <button id="submitOcrBtn" class="btn btn-primary btn-large">
+              <span class="btn-text-content">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-9l6 4.5-6 4.5z"/>
+                </svg>
+                Avvia Riconoscimento (OCR)
+              </span>
+              <span class="btn-spinner" style="display:none;"></span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Results Card -->
+      <section id="resultsCard" class="card results-card" style="display:none;">
+        <div class="results-header">
+          <div class="results-title-group">
+            <h2 class="card-title">Testo Estratto</h2>
+            <div id="statsRow" class="stats-badges">
+              <span id="statTime" class="badge">⏱ 0.0s</span>
+              <span id="statConfidence" class="badge">🎯 0%</span>
+              <span id="statChars" class="badge">🔤 0 car.</span>
+              <span id="statWords" class="badge">📝 0 parole</span>
+              <span id="statPages" class="badge" style="display:none;">📄 1 pag.</span>
+            </div>
+          </div>
+          <div class="results-actions">
+            <!-- Pulsante rapido copia negli appunti -->
+            <button id="copyBtn" class="btn btn-action" title="Copia negli appunti">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              <span>Copia</span>
+            </button>
+            <button id="downloadBtn" class="btn btn-action" title="Scarica come file .txt">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+              <span>Scarica .txt</span>
+            </button>
+            <button id="clearBtn" class="btn btn-action" title="Pulisci">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="results-body">
+          <textarea id="ocrOutput" class="ocr-textarea" placeholder="Il testo estratto apparirà qui..." spellcheck="false"></textarea>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>OCR Web Tool • Home Assistant OS Add-on • Motore Tesseract 5 • Ottimizzato per Raspberry Pi</p>
+    </footer>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+  </div>
+
+  <script src="static/js/app.js"></script>
+</body>
+</html>

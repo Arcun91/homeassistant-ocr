@@ -1,0 +1,37 @@
+name: "OCR Web Tool"
+version: "1.0.0"
+slug: "ocr_web_tool"
+description: "Applicazione web leggera di OCR per estrazione testo da immagini e documenti, ottimizzata per Raspberry Pi."
+url: "https://github.com/USERNAME/homeassistant-ocr"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: application
+boot: auto
+init: false
+ingress: true
+ingress_port: 5000
+panel_icon: "mdi:text-recognition"
+panel_title: "OCR Tool"
+ports:
+  5000/tcp: 5000
+ports_description:
+  5000/tcp: "Interfaccia Web OCR (HTTP per accesso diretto LAN o VPN NetBird)"
+webui: "http://[HOST]:[PORT:5000]"
+options:
+  default_language: "ita"
+  tesseract_psm: 3
+  tesseract_oem: 3
+  max_upload_size_mb: 20
+  max_image_dimension: 2400
+  omp_thread_limit: 2
+schema:
+  default_language: "list(ita|eng|ita+eng)"
+  tesseract_psm: "int(0..13)"
+  tesseract_oem: "int(0..3)"
+  max_upload_size_mb: "int(1..50)"
+  max_image_dimension: "int(1000..4000)"
+  omp_thread_limit: "int(1..4)"
